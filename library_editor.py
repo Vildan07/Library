@@ -38,15 +38,15 @@ class Book:
 
 class Library:
     """Этот класс отвечает за управление библиотекой"""
-    def __init__(self, data_file: str = "library_data.txt"):
-        self.data_file = data_file
+    def __init__(self, file_data: str = "library_data.txt"):
+        self.file_data = file_data
         self.books = self.load_books()
 
     def load_books(self):
         """Загружает книги из текстового файла"""
         books = []
         try:
-            with open(self.data_file, "r", encoding="utf-8") as file:
+            with open(self.file_data, "r", encoding="utf-8") as file:
                 books = [Book.from_line(line) for line in file if line.strip()]
         except FileNotFoundError:
             print("Файл с данными не найден 🤷‍♂️. Будет создан новый файл при добавлении книг.")
@@ -57,10 +57,10 @@ class Library:
     def save_books(self, append: bool = False, new_book: Book = None):
         """Сохраняет книги в файл"""
         if append and new_book:
-            with open(self.data_file, "a", encoding="utf-8") as file:
+            with open(self.file_data, "a", encoding="utf-8") as file:
                 file.write(new_book.to_line() + "\n")
         else:
-            with open(self.data_file, "w", encoding="utf-8") as file:
+            with open(self.file_data, "w", encoding="utf-8") as file:
                 for book in self.books:
                     file.write(book.to_line() + "\n")
 
